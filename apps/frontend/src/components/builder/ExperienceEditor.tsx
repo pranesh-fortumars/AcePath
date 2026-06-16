@@ -21,6 +21,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { CopilotAssistant } from "@/components/builder/CopilotAssistant";
 
 export function ExperienceEditor() {
   const { experiences, addExperience, updateExperience, removeExperience, reorderExperiences } = useResumeStore();
@@ -135,10 +136,14 @@ function SortableExperienceItem({ experience, update, remove }: any) {
           />
         </div>
         <textarea
-          placeholder="Description / Achievements"
+          placeholder="Description / Achievements (e.g. Worked on the website to make it faster)"
           className="w-full min-h-[80px] p-3 rounded-md bg-background border border-border/50 text-sm resize-y"
           value={experience.description}
           onChange={(e) => update(experience.id, { description: e.target.value })}
+        />
+        <CopilotAssistant 
+          initialText={experience.description} 
+          onApply={(newText) => update(experience.id, { description: newText })} 
         />
       </div>
     </div>

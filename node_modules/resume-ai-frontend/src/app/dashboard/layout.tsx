@@ -11,8 +11,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <span className="font-bold text-lg tracking-tight">ResumeAI Pro</span>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <SidebarItem icon={<LayoutDashboard className="w-5 h-5" />} label="Overview" href="/dashboard" active />
-          <SidebarItem icon={<FileText className="w-5 h-5" />} label="My Resumes" href="/dashboard/resumes" />
+          <SidebarItem icon={<LayoutDashboard className="w-5 h-5" />} label="Overview" href="/dashboard" />
+          <SidebarItem icon={<FileText className="w-5 h-5" />} label="Builder" href="/dashboard/builder" />
+          <SidebarItem icon={<FileText className="w-5 h-5" />} label="ATS Analyzer" href="/dashboard/ats" active />
           <SidebarItem icon={<Briefcase className="w-5 h-5" />} label="Job Matches" href="/dashboard/jobs" />
           <SidebarItem icon={<Settings className="w-5 h-5" />} label="Settings" href="/dashboard/settings" />
         </nav>
