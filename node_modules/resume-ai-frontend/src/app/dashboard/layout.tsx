@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { LayoutDashboard, FileText, Briefcase, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, Settings, LogOut, Video, Globe } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
@@ -13,8 +13,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <nav className="flex-1 px-4 py-6 space-y-2">
           <SidebarItem icon={<LayoutDashboard className="w-5 h-5" />} label="Overview" href="/dashboard" />
           <SidebarItem icon={<FileText className="w-5 h-5" />} label="Builder" href="/dashboard/builder" />
-          <SidebarItem icon={<FileText className="w-5 h-5" />} label="ATS Analyzer" href="/dashboard/ats" active />
+          <SidebarItem icon={<FileText className="w-5 h-5" />} label="ATS Analyzer" href="/dashboard/ats" />
           <SidebarItem icon={<Briefcase className="w-5 h-5" />} label="Job Matches" href="/dashboard/jobs" />
+          <SidebarItem icon={<LayoutDashboard className="w-5 h-5" />} label="App Tracker" href="/dashboard/tracker" />
+          <SidebarItem icon={<Video className="w-5 h-5" />} label="Mock Interview" href="/dashboard/interview" />
+          <SidebarItem icon={<Globe className="w-5 h-5" />} label="AI Portfolio" href="/dashboard/portfolio" />
           <SidebarItem icon={<Settings className="w-5 h-5" />} label="Settings" href="/dashboard/settings" />
         </nav>
         <div className="p-4 border-t border-border/50">
