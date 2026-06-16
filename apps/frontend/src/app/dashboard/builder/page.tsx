@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Download, Eye, FileText } from "lucide-react";
 import { ExperienceEditor } from "@/components/builder/ExperienceEditor";
 import { SmartImport } from "@/components/builder/SmartImport";
+import { CareerTargetEditor } from "@/components/builder/CareerTargetEditor";
+import { ProjectEditor } from "@/components/builder/ProjectEditor";
 
 export default function ResumeBuilderPage() {
   const { personalInfo, setPersonalInfo, experiences } = useResumeStore();
@@ -49,8 +51,14 @@ export default function ResumeBuilderPage() {
           </div>
         </Card>
 
+        {/* Extended Inputs for ATS 2.0 */}
+        <CareerTargetEditor />
+
         {/* Experience Section */}
         <ExperienceEditor />
+
+        {/* Projects Section */}
+        <ProjectEditor />
 
       </div>
 

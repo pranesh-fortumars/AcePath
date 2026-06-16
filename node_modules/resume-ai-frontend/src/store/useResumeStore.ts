@@ -6,7 +6,14 @@ export interface Experience {
   role: string;
   startDate: string;
   endDate: string;
-  description: string; // Markdown or plain text with bullet points
+  description: string;
+  // Extended fields
+  industry?: string;
+  location?: string;
+  employmentType?: string;
+  teamSize?: number;
+  revenueImpact?: string;
+  costSavings?: string;
 }
 
 export interface Education {
@@ -22,7 +29,32 @@ export interface Education {
 export interface Skill {
   id: string;
   name: string;
+  category?: string; // e.g. Programming, Soft Skills
   level?: string;
+}
+
+export interface Project {
+  id: string;
+  projectName: string;
+  role: string;
+  technologies: string;
+  description: string;
+  link?: string;
+}
+
+export interface Certification {
+  id: string;
+  name: string;
+  organization: string;
+  date: string;
+  url?: string;
+}
+
+export interface CareerTarget {
+  targetRole: string;
+  preferredIndustry: string;
+  expectedSalary: string;
+  remotePreference: boolean;
 }
 
 export interface PersonalInfo {
@@ -31,28 +63,44 @@ export interface PersonalInfo {
   email: string;
   phone: string;
   location: string;
-  website?: string;
   linkedin?: string;
   github?: string;
+  portfolioUrl?: string;
   summary: string;
 }
 
 export interface ResumeState {
   personalInfo: PersonalInfo;
+  careerTarget: CareerTarget;
   experiences: Experience[];
   educations: Education[];
   skills: Skill[];
+  projects: Project[];
+  certifications: Certification[];
+
   // Actions
   setPersonalInfo: (info: Partial<PersonalInfo>) => void;
+  setCareerTarget: (target: Partial<CareerTarget>) => void;
+  
   addExperience: (exp: Experience) => void;
   updateExperience: (id: string, exp: Partial<Experience>) => void;
   removeExperience: (id: string) => void;
   reorderExperiences: (startIndex: number, endIndex: number) => void;
+  
   addEducation: (edu: Education) => void;
   updateEducation: (id: string, edu: Partial<Education>) => void;
   removeEducation: (id: string) => void;
+  
   addSkill: (skill: Skill) => void;
   removeSkill: (id: string) => void;
+
+  addProject: (proj: Project) => void;
+  updateProject: (id: string, proj: Partial<Project>) => void;
+  removeProject: (id: string) => void;
+
+  addCertification: (cert: Certification) => void;
+  updateCertification: (id: string, cert: Partial<Certification>) => void;
+  removeCertification: (id: string) => void;
 }
 
 export const useResumeStore = create<ResumeState>((set) => ({
@@ -62,15 +110,29 @@ export const useResumeStore = create<ResumeState>((set) => ({
     email: "",
     phone: "",
     location: "",
+    linkedin: "",
+    github: "",
+    portfolioUrl: "",
     summary: "",
+  },
+  careerTarget: {
+    targetRole: "",
+    preferredIndustry: "",
+    expectedSalary: "",
+    remotePreference: true,
   },
   experiences: [],
   educations: [],
   skills: [],
+  projects: [],
+  certifications: [],
 
   setPersonalInfo: (info) =>
     set((state) => ({ personalInfo: { ...state.personalInfo, ...info } })),
     
+  setCareerTarget: (target) =>
+    set((state) => ({ careerTarget: { ...state.careerTarget, ...target } })),
+
   addExperience: (exp) =>
     set((state) => ({ experiences: [...state.experiences, exp] })),
     
@@ -112,4 +174,16 @@ export const useResumeStore = create<ResumeState>((set) => ({
   addSkill: (skill) => set((state) => ({ skills: [...state.skills, skill] })),
   removeSkill: (id) =>
     set((state) => ({ skills: state.skills.filter((s) => s.id !== id) })),
+
+  addProject: (proj) => set((state) => ({ projects: [...state.projects, proj] })),
+  updateProject: (id, updatedProj) => set((state) => ({
+    projects: state.projects.map((proj) => proj.id === id ? { ...proj, ...updatedProj } : proj)
+  })),
+  removeProject: (id) => set((state) => ({ projects: state.projects.filter(p => p.id !== id) })),
+
+  addCertification: (cert) => set((state) => ({ certifications: [...state.certifications, cert] })),
+  updateCertification: (id, updatedCert) => set((state) => ({
+    certifications: state.certifications.map((cert) => cert.id === id ? { ...cert, ...updatedCert } : cert)
+  })),
+  removeCertification: (id) => set((state) => ({ certifications: state.certifications.filter(c => c.id !== id) })),
 }));
