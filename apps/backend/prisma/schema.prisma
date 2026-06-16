@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  firebaseUid   String    @unique
+  role          Role      @default(CANDIDATE)
+  subscription  SubscriptionTier @default(FREE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  resumes       Resume[]
+  applications  Application[]
+  mockInterviews MockInterview[]
+}
+
+enum Role {
+  CANDIDATE
+  RECRUITER
+  COLLEGE_ADMIN
+  SUPER_ADMIN
+}
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+  ENTERPRISE
+}
+
+model Resume {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  title       String   @default("Untitled Resume")
+  content     Json     // Stores structured resume sections (experience, education, skills, etc.)
+  atsScore    Int?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  atsReports  AtsReport[]
+}
+
+model AtsReport {
+  id              String   @id @default(cuid())
+  resumeId        String
+  resume          Resume   @relation(fields: [resumeId], references: [id])
+  jobDescription  String?  @db.Text
+  overallScore    Int
+  keywordMatch    Int
+  formatScore     Int
+  suggestions     Json     // List of improvements and missing keywords
+  createdAt       DateTime @default(now())
+}
+
+model Job {
+  id              String   @id @default(cuid())
+  title           String
+  company         String
+  description     String   @db.Text
+  requirements    Json     // Array of required skills/keywords
+  location        String?
+  isRemote        Boolean  @default(false)
+  salaryRange     String?
+  recruiterId     String?
+  createdAt       DateTime @default(now())
+  
+  applications    Application[]
+}
+
+model Application {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  jobId       String?
+  job         Job?     @relation(fields: [jobId], references: [id])
+  status      ApplicationStatus @default(APPLIED)
+  appliedAt   DateTime @default(now())
+  notes       String?  @db.Text
+}
+
+enum ApplicationStatus {
+  APPLIED
+  SCREENING
+  SHORTLISTED
+  INTERVIEW
+  OFFER
+  REJECTED
+}
+
+model MockInterview {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  jobRole     String
+  questions   Json     // Array of HR/Technical questions
+  feedback    Json?    // AI feedback, confidence analysis
+  score       Int?
+  createdAt   DateTime @default(now())
+}
