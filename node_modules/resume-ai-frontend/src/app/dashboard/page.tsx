@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import { Activity, Target, Zap, FileText } from "lucide-react";
+import { Achievements } from "@/components/gamification/Achievements";
 
 export default function DashboardPage() {
   return (
@@ -21,9 +22,12 @@ export default function DashboardPage() {
         <MetricCard title="Interview Readiness" value="Strong" icon={<Activity className="w-4 h-4 text-green-500" />} trend="Based on latest mock" />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-3">
+        {/* Achievements / Gamification */}
+        <Achievements />
+
         {/* Recent Activity */}
-        <Card>
+        <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
@@ -43,7 +47,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* ATS Score Improvement */}
-        <Card>
+        <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle>Resume Strength</CardTitle>
           </CardHeader>

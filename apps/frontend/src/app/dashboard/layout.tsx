@@ -20,6 +20,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <SidebarItem icon={<Globe className="w-5 h-5" />} label="AI Portfolio" href="/dashboard/portfolio" />
           <SidebarItem icon={<Settings className="w-5 h-5" />} label="Settings" href="/dashboard/settings" />
         </nav>
+        
+        {/* Multi-Role Portals for Demo */}
+        <div className="px-4 py-2 mb-2">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Portals</p>
+          <div className="space-y-1">
+            <SidebarItem icon={<Briefcase className="w-4 h-4" />} label="Recruiter Admin" href="/dashboard/recruiter" />
+            <SidebarItem icon={<LayoutDashboard className="w-4 h-4" />} label="College Admin" href="/dashboard/college" />
+          </div>
+        </div>
+
         <div className="p-4 border-t border-border/50">
           <button className="flex items-center gap-3 w-full px-3 py-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted">
             <LogOut className="w-5 h-5" />
