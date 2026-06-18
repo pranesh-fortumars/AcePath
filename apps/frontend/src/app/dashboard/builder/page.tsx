@@ -8,6 +8,7 @@ import { ExperienceEditor } from "@/components/builder/ExperienceEditor";
 import { SmartImport } from "@/components/builder/SmartImport";
 import { CareerTargetEditor } from "@/components/builder/CareerTargetEditor";
 import { ProjectEditor } from "@/components/builder/ProjectEditor";
+import { ExportToolbar } from "@/components/builder/ExportToolbar";
 
 export default function ResumeBuilderPage() {
   const { personalInfo, setPersonalInfo, experiences } = useResumeStore();
@@ -64,11 +65,7 @@ export default function ResumeBuilderPage() {
 
       {/* Live Preview Area */}
       <div className="flex-1 bg-muted/30 rounded-2xl border border-border/50 flex flex-col relative overflow-hidden">
-        <div className="absolute top-4 right-4 z-10">
-          <Button size="sm" className="shadow-lg shadow-primary/20 rounded-full">
-            <Download className="w-4 h-4 mr-2" /> Download PDF
-          </Button>
-        </div>
+        <ExportToolbar />
         
         {/* Actual Preview Sheet (A4 format) */}
         <div className="flex-1 overflow-auto p-8 flex justify-center">
