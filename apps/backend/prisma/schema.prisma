@@ -1,18 +1,28 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../../node_modules/@prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  CANDIDATE
+  RECRUITER
+  COLLEGE
+  ADMIN
+}
+
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  email               String   @unique
+  passwordHash        String?
+  name                String?
+  role                Role     @default(CANDIDATE)
+  isOwner             Boolean  @default(false)
+  forcePasswordChange Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
   
   resumes      Resume[]
   applications Application[]
