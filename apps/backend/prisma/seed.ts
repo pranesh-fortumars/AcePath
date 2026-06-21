@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { PrismaClient, Role } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
 
@@ -18,7 +18,7 @@ async function main() {
       email: 'admin',
       passwordHash,
       name: 'Super Admin',
-      role: Role.ADMIN,
+      role: 'ADMIN',
       isOwner: true,
       forcePasswordChange: true,
     },
@@ -33,7 +33,7 @@ async function main() {
       data: {
         email: faker.internet.email(),
         name: faker.person.fullName(),
-        role: Role.CANDIDATE,
+        role: 'CANDIDATE',
         resumes: {
           create: {
             title: `${faker.person.firstName()}'s Tech Resume`,
