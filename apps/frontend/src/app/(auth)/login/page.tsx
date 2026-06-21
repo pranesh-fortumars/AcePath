@@ -24,7 +24,7 @@ export default function LoginPortal() {
         if (data.user.forcePasswordChange) {
           router.push("/reset-password");
         } else {
-          router.push("/dashboard");
+          router.push("/system");
         }
       } else {
         alert("Invalid Credentials");

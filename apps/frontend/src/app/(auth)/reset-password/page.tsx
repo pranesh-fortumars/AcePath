@@ -20,7 +20,7 @@ export default function PasswordReset() {
       // In a real flow, you would call the backend to reset the password.
       // For this Single-Owner Development Mode mock, we just proceed.
       localStorage.setItem("viewAsRole", "ADMIN");
-      router.push("/dashboard");
+      router.push("/system");
     } catch (err) {
       console.error(err);
       alert("System Error");
