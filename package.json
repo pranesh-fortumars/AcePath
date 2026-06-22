@@ -7,6 +7,8 @@
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=resume-ai-frontend\" \"npm run dev --workspace=resume-ai-backend\"",
+    "db:start": "set PATH=D:\\AcePath\\.local-node\\node-v22.14.0-win-x64;%PATH% && cd apps/backend && npx prisma dev",
+    "db:seed": "node -e \"fetch('http://localhost:3001/auth/seed').then(r=>r.json()).then(console.log).catch(console.error)\"",
     "build": "npm run build --workspaces --if-present",
     "start": "npm run start --workspaces --if-present"
   },
