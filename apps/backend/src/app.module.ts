@@ -5,9 +5,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { MongoModule } from './mongo/mongo.module';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
-  imports: [PrismaModule, MongoModule, AuthModule],
+  imports: [PrismaModule, MongoModule, FirebaseModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
