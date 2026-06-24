@@ -67,9 +67,9 @@ graph TD
             DB4[("4. In-Memory Mock\n(Local RAM)")]:::db4
             
             API -- "Primary" --> DB1
-            API -- "Fallback 1" -.-> DB2
-            API -- "Fallback 2" -.-> DB3
-            API -- "Ultimate Fallback" -.-> DB4
+            API -. "Fallback 1" .-> DB2
+            API -. "Fallback 2" .-> DB3
+            API -. "Ultimate Fallback" .-> DB4
         end
     end
 ```
