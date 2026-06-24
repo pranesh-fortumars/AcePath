@@ -1,21 +1,44 @@
 <h1 align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=800&size=42&pause=1000&color=06B6D4&center=true&vCenter=true&width=800&lines=🚀+ResumeAI+Pro;The+Ultimate+Career+System;Engineer+Your+Future" alt="Typing SVG" />
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.herokuapp.com/?font=Inter&weight=800&size=40&pause=1000&color=06B6D4&center=true&vCenter=true&width=800&lines=🚀+ResumeAI+Pro;The+Ultimate+Career+System;Engineer+Your+Future" alt="Typing SVG" />
+  </a>
 </h1>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" width="100%" />
+  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
 </p>
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![Next.js](https://img.shields.io/badge/Next.js-15.0.0-black?logo=next.js)
-![NestJS](https://img.shields.io/badge/NestJS-11.0.1-ea2845?logo=nestjs)
-![Prisma](https://img.shields.io/badge/Prisma-5.22.0-2d3748?logo=prisma)
-![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb)
-![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?logo=firebase)
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge&logo=appveyor" />
+  <img src="https://img.shields.io/badge/Next.js-15.0.0-black?style=for-the-badge&logo=next.js" />
+  <img src="https://img.shields.io/badge/NestJS-11.0.1-ea2845?style=for-the-badge&logo=nestjs" />
+  <img src="https://img.shields.io/badge/Prisma-5.22.0-2d3748?style=for-the-badge&logo=prisma" />
+</p>
 
 Welcome to **ResumeAI Pro**—not just another resume builder, but a fully-fledged, AI-driven **Career Intelligence System**. 
 
 Built with an enterprise-grade NPM Workspace Monorepo architecture (Next.js Frontend + NestJS Backend), this platform fundamentally changes how candidates optimize their profiles for the modern job market. We've bypassed the generic templates of the past and engineered an **ATS 2.0 Engine** that simulates real-world Applicant Tracking Systems to ensure maximum visibility for job seekers.
+
+---
+
+## 💻 System Boot Sequence
+
+> **Welcome to the God-Tier Terminal.** Our architecture is designed to literally survive the apocalypse. Here is what happens when the ecosystem boots up locally:
+
+```console
+$ resume-ai-pro start --mode=god-tier
+
+[SYSTEM] Initializing Triple-Fallback Database Router...
+[SYSTEM] Connection 1: PostgreSQL (Prisma) -> FAILED (Server Unreachable)
+[SYSTEM] Connection 2: MongoDB Atlas       -> FAILED (IP Whitelist Rejected)
+[SYSTEM] Connection 3: Firebase Firestore  -> FAILED (Project Not Initialized)
+[SYSTEM] Connection 4: Local RAM In-Memory -> ENGAGED!
+
+[SYSTEM] Injecting Owner Credentials... OK.
+[SYSTEM] Bypassing Generative Restrictions... OK.
+[SYSTEM] Booting ATS 2.0 Optimization Engine... OK.
+>> Career Intelligence Engine is now ONLINE on Port 3000.
+```
 
 ---
 
@@ -28,6 +51,12 @@ ResumeAI Pro operates across multiple specialized portals and intelligence engin
 - **8-Dimension Scoring Matrix:** Grades resumes on ATS Compatibility, Recruiter Score, Keyword Density, Industry Alignment, Executive Presence, Readability, and Business Impact.
 - **Recruiter Psychology Scanner:** Simulates a human "6-second scan" to score Trustworthiness and First Impressions.
 - **Impact Quantification:** Uses Regex and dictionaries to detect high-impact action verbs and parse out hard business metrics (Revenue, Cost Savings, Team Sizes).
+
+### 🤖 Multi-Persona AI Copilot
+Simulates feedback from three distinct hiring personas based on your generated data:
+1. **HR Recruiter:** Audits formatting, sentence density, and readability.
+2. **Technical Hiring Manager:** Checks for specific technical domain skills (e.g., Cloud, DevOps, AI).
+3. **CTO / Executive Review:** Analyzes the critical balance between leadership qualities and quantifiable ROI.
 
 ### 🛡️ Indestructible Triple-Fallback Architecture
 Our backend is engineered to survive any local development or network failure. When booting and authenticating, it gracefully cascades through:
@@ -49,6 +78,10 @@ Our backend is engineered to survive any local development or network failure. W
 ---
 
 ## 🏗️ Architecture & Tech Stack
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=nextjs,react,ts,nodejs,nestjs,postgres,mongodb,firebase,tailwind,prisma&theme=dark" alt="Skill Icons" />
+</p>
 
 ```mermaid
 graph TD
@@ -82,18 +115,6 @@ graph TD
 
 This project utilizes a modern **NPM Workspace Monorepo** pattern to enforce strict separation of concerns while sharing typings when necessary.
 
-### Frontend (`apps/frontend`)
-- **Framework:** Next.js 16 (Turbopack)
-- **Styling:** Tailwind CSS + Framer Motion (for dynamic, liquid animations)
-- **UI Components:** Shadcn/UI (Radix Primitives)
-- **State Management:** Zustand
-- **Assets:** `ian-xiaohei-illustrations` open-source SVGs.
-
-### Backend (`apps/backend`)
-- **Framework:** NestJS
-- **Databases:** PostgreSQL (Prisma), MongoDB (Mongoose), Firebase (Firestore)
-- **Intelligence:** Custom local NLP and heuristics services.
-
 ---
 
 ## 🚦 Getting Started
@@ -108,24 +129,17 @@ cd AcePath
 npm install
 ```
 
-### 2. Database Environment Setup
-Make sure you have a `.env` file in your backend workspace containing your database credentials and API configuration overrides.
-
-### 3. Start the Ecosystem
+### 2. Start the Ecosystem
 Our boot sequence is entirely fully-automated. Run the unified development command from the root folder:
 
 ```bash
-cd AcePath
 npm run dev
 ```
 
 This single command will:
 1. Boot the Next.js Frontend.
 2. Boot the NestJS Backend.
-3. Trigger an automated background webhook that seeds the Super Admin credentials (`admin` / `Admin@123`) directly into the active database layers.
-
-- **Frontend UI:** `http://localhost:3000`
-- **Backend API:** `http://localhost:3001`
+3. Trigger an automated background webhook that seeds the Super Admin credentials directly into the active database layers.
 
 ---
 
@@ -144,6 +158,10 @@ This single command will:
 
 ---
 
-> *"Stop building resumes. Start engineering your career."* 
-> 
-> — **ResumeAI Pro**
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+</p>
+<p align="center">
+  <em>"Stop building resumes. Start engineering your career."</em><br>
+  <strong>— ResumeAI Pro</strong>
+</p>
