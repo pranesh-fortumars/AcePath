@@ -1,4 +1,10 @@
-# 🚀 ResumeAI Pro: The Ultimate Career Intelligence System
+<h1 align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=800&size=42&pause=1000&color=06B6D4&center=true&vCenter=true&width=800&lines=🚀+ResumeAI+Pro;The+Ultimate+Career+System;Engineer+Your+Future" alt="Typing SVG" />
+</h1>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" width="100%" />
+</p>
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-15.0.0-black?logo=next.js)
