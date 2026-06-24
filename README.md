@@ -61,10 +61,10 @@ graph TD
         UI -->|HTTP / REST| API
 
         subgraph "Triple-Fallback Database Layer"
-            DB1[("1. PostgreSQL\n(Prisma ORM)")];:::db1
-            DB2[("2. MongoDB Atlas\n(Mongoose)")];:::db2
-            DB3[("3. Firebase\n(Firestore)")];:::db3
-            DB4[("4. In-Memory Mock\n(Local RAM)")];:::db4
+            DB1[("1. PostgreSQL\n(Prisma ORM)")]:::db1
+            DB2[("2. MongoDB Atlas\n(Mongoose)")]:::db2
+            DB3[("3. Firebase\n(Firestore)")]:::db3
+            DB4[("4. In-Memory Mock\n(Local RAM)")]:::db4
             
             API -- "Primary" --> DB1
             API -- "Fallback 1" -.-> DB2
