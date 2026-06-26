@@ -100,6 +100,22 @@ export interface ResumeVersion {
   };
 }
 
+export interface ResumeDocument {
+  id: string;
+  title: string;
+  lastUpdated: string;
+  sections: ResumeSection[];
+  personalInfo: PersonalInfo;
+  experiences: Experience[];
+  educations: Education[];
+  projects: Project[];
+  skills: Skill[];
+  certifications: Certification[];
+  designConfig: DesignConfig;
+  versions: ResumeVersion[];
+  computedScore: number;
+}
+
 export interface DesignConfig {
   fontFamily: string;
   primaryColor: string;
@@ -121,6 +137,10 @@ export interface ResumeState {
   sections: ResumeSection[];
   versions: ResumeVersion[];
   designConfig: DesignConfig;
+
+  // Multi-Resume State
+  resumes: ResumeDocument[];
+  activeResumeId: string;
   
   // Legacy Actions
   setPersonalInfo: (info: Partial<PersonalInfo>) => void;
@@ -150,6 +170,12 @@ export interface ResumeState {
   // Version Control
   saveVersion: (label: string) => void;
   restoreVersion: (versionId: string) => void;
+  
+  // Multi-Resume Engine
+  saveActiveResume: () => void;
+  switchResume: (id: string) => void;
+  createNewResume: (title: string) => void;
+  deleteResume: (id: string) => void;
   
   // Design Studio
   updateDesign: (config: Partial<DesignConfig>) => void;
@@ -181,6 +207,10 @@ export const useResumeStore = create<ResumeState>()(
       sections: DEFAULT_SECTIONS,
       versions: [],
       designConfig: { fontFamily: 'Inter', primaryColor: '#000000', layout: 'classic', spacing: 'normal' },
+
+      // Multi-Resume State
+      resumes: [],
+      activeResumeId: 'default',
 
       // Legacy Actions
       setPersonalInfo: (info) => set((state) => ({ personalInfo: { ...state.personalInfo, ...info } })),
@@ -236,6 +266,72 @@ export const useResumeStore = create<ResumeState>()(
         if (!target) return state;
         return { sections: target.sections, designConfig: target.designConfig };
       }),
+
+      // Multi-Resume Engine
+      saveActiveResume: () => set((state) => {
+        const currentDoc: ResumeDocument = {
+          id: state.activeResumeId === 'default' ? `res_${Date.now()}` : state.activeResumeId,
+          title: state.personalInfo.fullName ? `${state.personalInfo.fullName}'s Resume` : "Untitled Resume",
+          lastUpdated: new Date().toISOString(),
+          sections: state.sections,
+          personalInfo: state.personalInfo,
+          experiences: state.experiences,
+          educations: state.educations,
+          projects: state.projects,
+          skills: state.skills,
+          certifications: state.certifications,
+          designConfig: state.designConfig,
+          versions: state.versions,
+          computedScore: 84 // Default static, will be overwritten by dynamic later
+        };
+        
+        const exists = state.resumes.some(r => r.id === currentDoc.id);
+        return {
+          activeResumeId: currentDoc.id,
+          resumes: exists ? state.resumes.map(r => r.id === currentDoc.id ? currentDoc : r) : [currentDoc, ...state.resumes]
+        };
+      }),
+      
+      switchResume: (id) => set((state) => {
+        const target = state.resumes.find(r => r.id === id);
+        if (!target) return state;
+        
+        // Save current before switching
+        get().saveActiveResume();
+
+        return {
+          activeResumeId: id,
+          sections: target.sections,
+          personalInfo: target.personalInfo,
+          experiences: target.experiences,
+          educations: target.educations,
+          projects: target.projects,
+          skills: target.skills,
+          certifications: target.certifications,
+          designConfig: target.designConfig,
+          versions: target.versions
+        };
+      }),
+
+      createNewResume: (title) => set((state) => {
+        get().saveActiveResume(); // Save current work
+        const newId = `res_${Date.now()}`;
+        return {
+          activeResumeId: newId,
+          sections: DEFAULT_SECTIONS,
+          personalInfo: { fullName: "", jobTitle: "", email: "", phone: "", location: "", linkedin: "", github: "", portfolioUrl: "", summary: "" },
+          experiences: [],
+          educations: [],
+          projects: [],
+          skills: [],
+          certifications: [],
+          versions: []
+        };
+      }),
+
+      deleteResume: (id) => set((state) => ({
+        resumes: state.resumes.filter(r => r.id !== id)
+      })),
 
       // Design Studio
       updateDesign: (config) => set((state) => ({ designConfig: { ...state.designConfig, ...config } }))

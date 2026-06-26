@@ -4,8 +4,10 @@ import { useResumeStore } from "@/store/useResumeStore";
 import { X, History, Clock, GitCommit, Copy, RotateCcw, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function VersionControlModal({ onClose }: { onClose: () => void }) {
+export function VersionControlModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const { versions, restoreVersion, saveVersion } = useResumeStore();
+
+  if (!isOpen) return null;
 
   const handleRestore = (id: string) => {
     if (confirm("Are you sure you want to restore this version? This will overwrite your current unsaved edits.")) {

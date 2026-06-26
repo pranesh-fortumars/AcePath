@@ -6,7 +6,7 @@ import { useResumeStore } from "@/store/useResumeStore";
 import { Button } from "@/components/ui/button";
 import { 
   Download, Eye, Maximize2, Zap, LayoutTemplate, 
-  History, Settings, PenTool, Bot, Activity, Menu 
+  History, Settings, PenTool, Bot, Activity, Menu, Upload
 } from "lucide-react";
 
 // Placeholder components (will be built out in subsequent steps)
@@ -15,10 +15,12 @@ import { EditorPanel } from "@/app/dashboard/builder/components/EditorPanel";
 import { CopilotPanel } from "@/app/dashboard/builder/components/CopilotPanel";
 import { AtsPanel } from "@/app/dashboard/builder/components/AtsPanel";
 import { VersionControlModal } from "@/app/dashboard/builder/components/VersionControlModal";
+import { SmartImportModal } from "@/app/dashboard/builder/components/SmartImportModal";
 
 export default function UltimateResumeBuilder() {
   const [activeRightPanel, setActiveRightPanel] = useState<'copilot' | 'design' | 'ats' | 'versions'>('ats');
   const [isVersionModalOpen, setIsVersionModalOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   return (
     <div className="h-[calc(100vh-4rem)] -m-6 flex flex-col bg-background overflow-hidden text-sm">
@@ -37,7 +39,10 @@ export default function UltimateResumeBuilder() {
           <span className="text-xs text-muted-foreground ml-2">Saved just now</span>
         </div>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 border-l border-border/50 pl-4">
+          <Button variant="outline" size="sm" className="gap-2 text-purple-600 border-purple-200 hover:bg-purple-50" onClick={() => setIsImportModalOpen(true)}>
+            <Upload className="w-4 h-4" /> Import Data
+          </Button>
           <Button variant="outline" size="sm" onClick={() => setIsVersionModalOpen(true)} className="gap-2">
             <History className="w-4 h-4" /> History
           </Button>
@@ -106,11 +111,16 @@ export default function UltimateResumeBuilder() {
           </div>
         </aside>
 
+        {/* Modals */}
+        <VersionControlModal 
+          isOpen={isVersionModalOpen} 
+          onClose={() => setIsVersionModalOpen(false)} 
+        />
+        <SmartImportModal
+          isOpen={isImportModalOpen}
+          onClose={() => setIsImportModalOpen(false)}
+        />
       </div>
-
-      {isVersionModalOpen && (
-        <VersionControlModal onClose={() => setIsVersionModalOpen(false)} />
-      )}
     </div>
   );
 }
