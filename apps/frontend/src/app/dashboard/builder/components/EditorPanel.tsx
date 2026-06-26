@@ -31,12 +31,19 @@ export function EditorPanel() {
             >
               {personalInfo.jobTitle || "Software Engineer"}
             </p>
-            <div className="flex justify-center gap-4 text-sm text-slate-500 mt-2">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-slate-500 mt-2">
               <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ email: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 rounded px-1 transition-colors">{personalInfo.email || "jane@example.com"}</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ phone: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 rounded px-1 transition-colors">{personalInfo.phone || "+1 234 567 890"}</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ location: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 rounded px-1 transition-colors">{personalInfo.location || "New York, NY"}</span>
+            </div>
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-blue-600 mt-1">
+              <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ linkedin: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 hover:underline rounded px-1 transition-colors">{personalInfo.linkedin || "linkedin.com/in/janedoe"}</span>
+              <span className="hidden sm:inline text-slate-400">•</span>
+              <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ github: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 hover:underline rounded px-1 transition-colors">{personalInfo.github || "github.com/janedoe"}</span>
+              <span className="hidden sm:inline text-slate-400">•</span>
+              <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ portfolioUrl: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 hover:underline rounded px-1 transition-colors">{personalInfo.portfolioUrl || "janedoe.com"}</span>
             </div>
           </div>
         );
