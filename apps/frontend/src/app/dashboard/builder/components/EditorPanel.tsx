@@ -3,7 +3,7 @@
 import { useResumeStore, ResumeSection } from "@/store/useResumeStore";
 
 export function EditorPanel() {
-  const { sections, personalInfo, experiences, projects, educations, skills, designConfig } = useResumeStore();
+  const { sections, personalInfo, experiences, projects, educations, skills, designConfig, setPersonalInfo, updateExperience, updateProject, updateEducation, updateSection } = useResumeStore();
 
   // Sort by order and filter visible
   const visibleSections = [...sections]
@@ -16,15 +16,27 @@ export function EditorPanel() {
       case 'PERSONAL_INFO':
         return (
           <div className="text-center pb-4 mb-4 border-b border-slate-300">
-            <h1 className="text-4xl font-bold tracking-tight" style={{ color: designConfig.primaryColor, fontFamily: designConfig.fontFamily }}>
+            <h1 
+              className="text-4xl font-bold tracking-tight outline-none focus:bg-primary/5 rounded px-2 -mx-2 transition-colors" 
+              style={{ color: designConfig.primaryColor, fontFamily: designConfig.fontFamily }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => setPersonalInfo({ fullName: e.currentTarget.textContent || "" })}
+            >
               {personalInfo.fullName || "Jane Doe"}
             </h1>
-            <p className="text-lg text-slate-700 mt-1">{personalInfo.jobTitle || "Software Engineer"}</p>
+            <p 
+              className="text-lg text-slate-700 mt-1 outline-none focus:bg-primary/5 rounded px-2 -mx-2 transition-colors"
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => setPersonalInfo({ jobTitle: e.currentTarget.textContent || "" })}
+            >
+              {personalInfo.jobTitle || "Software Engineer"}
+            </p>
             <div className="flex justify-center gap-4 text-sm text-slate-500 mt-2">
-              {personalInfo.email && <span>{personalInfo.email}</span>}
-              {personalInfo.phone && <span>• {personalInfo.phone}</span>}
-              {personalInfo.location && <span>• {personalInfo.location}</span>}
-              {personalInfo.linkedin && <span>• LinkedIn</span>}
+              <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ email: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 rounded px-1 transition-colors">{personalInfo.email || "jane@example.com"}</span>
+              <span>•</span>
+              <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ phone: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 rounded px-1 transition-colors">{personalInfo.phone || "+1 234 567 890"}</span>
+              <span>•</span>
+              <span contentEditable suppressContentEditableWarning onBlur={e => setPersonalInfo({ location: e.currentTarget.textContent || "" })} className="outline-none focus:bg-primary/5 rounded px-1 transition-colors">{personalInfo.location || "New York, NY"}</span>
             </div>
           </div>
         );
@@ -32,10 +44,19 @@ export function EditorPanel() {
       case 'SUMMARY':
         return (
           <div className="mb-4">
-            <h2 className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1" style={{ color: designConfig.primaryColor }}>
+            <h2 
+              className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1 outline-none focus:bg-primary/5 rounded px-1 -mx-1" 
+              style={{ color: designConfig.primaryColor }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => updateSection(section.id, { title: e.currentTarget.textContent || "" })}
+            >
               {section.title}
             </h2>
-            <p className="text-sm text-slate-700 leading-relaxed">
+            <p 
+              className="text-sm text-slate-700 leading-relaxed outline-none focus:bg-primary/5 rounded p-1 -mx-1"
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => setPersonalInfo({ summary: e.currentTarget.textContent || "" })}
+            >
               {personalInfo.summary || "A passionate professional with extensive experience in the industry. Track record of delivering high-quality solutions and driving business growth through technical innovation."}
             </p>
           </div>
@@ -44,18 +65,27 @@ export function EditorPanel() {
       case 'EXPERIENCE':
         return (
           <div className="mb-4">
-            <h2 className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1" style={{ color: designConfig.primaryColor }}>
+            <h2 
+              className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1 outline-none focus:bg-primary/5 rounded px-1 -mx-1" 
+              style={{ color: designConfig.primaryColor }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => updateSection(section.id, { title: e.currentTarget.textContent || "" })}
+            >
               {section.title}
             </h2>
             <div className="space-y-4">
               {experiences.length > 0 ? experiences.map(exp => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-baseline">
-                    <h3 className="font-bold text-slate-900">{exp.role}</h3>
-                    <span className="text-sm font-medium text-slate-500">{exp.startDate} - {exp.endDate || 'Present'}</span>
+                    <h3 className="font-bold text-slate-900 outline-none focus:bg-primary/5 px-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateExperience(exp.id, { role: e.currentTarget.textContent || "" })}>{exp.role}</h3>
+                    <div className="text-sm font-medium text-slate-500 outline-none focus:bg-primary/5 px-1 rounded flex gap-1">
+                      <span contentEditable suppressContentEditableWarning onBlur={e => updateExperience(exp.id, { startDate: e.currentTarget.textContent || "" })}>{exp.startDate || 'YYYY'}</span>
+                      <span>-</span>
+                      <span contentEditable suppressContentEditableWarning onBlur={e => updateExperience(exp.id, { endDate: e.currentTarget.textContent || "" })}>{exp.endDate || 'Present'}</span>
+                    </div>
                   </div>
-                  <p className="text-slate-700 font-medium text-sm mb-1">{exp.company}</p>
-                  <p className="text-sm text-slate-600 whitespace-pre-wrap">{exp.description}</p>
+                  <p className="text-slate-700 font-medium text-sm mb-1 outline-none focus:bg-primary/5 px-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateExperience(exp.id, { company: e.currentTarget.textContent || "" })}>{exp.company}</p>
+                  <p className="text-sm text-slate-600 whitespace-pre-wrap outline-none focus:bg-primary/5 p-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateExperience(exp.id, { description: e.currentTarget.textContent || "" })}>{exp.description}</p>
                 </div>
               )) : (
                 <div>
@@ -65,8 +95,8 @@ export function EditorPanel() {
                   </div>
                   <p className="text-slate-700 font-medium text-sm mb-1">Tech Innovations Inc.</p>
                   <ul className="list-disc pl-4 text-sm text-slate-600 space-y-1">
-                    <li>Architected scalable microservices supporting 1M+ daily active users.</li>
-                    <li>Reduced latency by 45% through aggressive caching strategies.</li>
+                    <li contentEditable suppressContentEditableWarning className="outline-none focus:bg-primary/5 px-1 rounded">Architected scalable microservices supporting 1M+ daily active users.</li>
+                    <li contentEditable suppressContentEditableWarning className="outline-none focus:bg-primary/5 px-1 rounded">Reduced latency by 45% through aggressive caching strategies.</li>
                   </ul>
                 </div>
               )}
@@ -77,17 +107,22 @@ export function EditorPanel() {
       case 'PROJECTS':
         return (
           <div className="mb-4">
-            <h2 className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1" style={{ color: designConfig.primaryColor }}>
+            <h2 
+              className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1 outline-none focus:bg-primary/5 rounded px-1 -mx-1" 
+              style={{ color: designConfig.primaryColor }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => updateSection(section.id, { title: e.currentTarget.textContent || "" })}
+            >
               {section.title}
             </h2>
             <div className="space-y-4">
               {projects.length > 0 ? projects.map(proj => (
                 <div key={proj.id}>
                   <div className="flex justify-between items-baseline">
-                    <h3 className="font-bold text-slate-900">{proj.projectName}</h3>
+                    <h3 className="font-bold text-slate-900 outline-none focus:bg-primary/5 px-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateProject(proj.id, { projectName: e.currentTarget.textContent || "" })}>{proj.projectName}</h3>
                   </div>
-                  <p className="text-slate-700 font-medium text-sm mb-1">Technologies: {proj.technologies}</p>
-                  <p className="text-sm text-slate-600 whitespace-pre-wrap">{proj.description}</p>
+                  <p className="text-slate-700 font-medium text-sm mb-1 outline-none focus:bg-primary/5 px-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateProject(proj.id, { technologies: e.currentTarget.textContent || "" })}>Technologies: {proj.technologies}</p>
+                  <p className="text-sm text-slate-600 whitespace-pre-wrap outline-none focus:bg-primary/5 p-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateProject(proj.id, { description: e.currentTarget.textContent || "" })}>{proj.description}</p>
                 </div>
               )) : (
                 <p className="text-sm text-slate-600 italic">No projects added yet.</p>
@@ -99,19 +134,30 @@ export function EditorPanel() {
       case 'EDUCATION':
         return (
           <div className="mb-4">
-            <h2 className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1" style={{ color: designConfig.primaryColor }}>
+            <h2 
+              className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1 outline-none focus:bg-primary/5 rounded px-1 -mx-1" 
+              style={{ color: designConfig.primaryColor }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => updateSection(section.id, { title: e.currentTarget.textContent || "" })}
+            >
               {section.title}
             </h2>
             <div className="space-y-4">
               {educations.length > 0 ? educations.map(edu => (
                 <div key={edu.id} className="flex justify-between">
                   <div>
-                    <h3 className="font-bold text-slate-900">{edu.degree} in {edu.fieldOfStudy}</h3>
-                    <p className="text-sm text-slate-700">{edu.institution}</p>
+                    <h3 className="font-bold text-slate-900 outline-none focus:bg-primary/5 px-1 -ml-1 rounded">
+                      <span contentEditable suppressContentEditableWarning onBlur={e => updateEducation(edu.id, { degree: e.currentTarget.textContent || "" })}>{edu.degree}</span> in <span contentEditable suppressContentEditableWarning onBlur={e => updateEducation(edu.id, { fieldOfStudy: e.currentTarget.textContent || "" })}>{edu.fieldOfStudy}</span>
+                    </h3>
+                    <p className="text-sm text-slate-700 outline-none focus:bg-primary/5 px-1 -ml-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateEducation(edu.id, { institution: e.currentTarget.textContent || "" })}>{edu.institution}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-slate-500">{edu.startDate} - {edu.endDate}</p>
-                    {edu.gpa && <p className="text-sm text-slate-500">GPA: {edu.gpa}</p>}
+                    <p className="text-sm font-medium text-slate-500 outline-none focus:bg-primary/5 px-1 rounded flex justify-end gap-1">
+                      <span contentEditable suppressContentEditableWarning onBlur={e => updateEducation(edu.id, { startDate: e.currentTarget.textContent || "" })}>{edu.startDate}</span>
+                      <span>-</span>
+                      <span contentEditable suppressContentEditableWarning onBlur={e => updateEducation(edu.id, { endDate: e.currentTarget.textContent || "" })}>{edu.endDate}</span>
+                    </p>
+                    {edu.gpa && <p className="text-sm text-slate-500 outline-none focus:bg-primary/5 px-1 rounded" contentEditable suppressContentEditableWarning onBlur={e => updateEducation(edu.id, { gpa: e.currentTarget.textContent || "" })}>GPA: {edu.gpa}</p>}
                   </div>
                 </div>
               )) : (
@@ -132,10 +178,15 @@ export function EditorPanel() {
       case 'SKILLS':
         return (
           <div className="mb-4">
-            <h2 className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1" style={{ color: designConfig.primaryColor }}>
+            <h2 
+              className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1 outline-none focus:bg-primary/5 rounded px-1 -mx-1" 
+              style={{ color: designConfig.primaryColor }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => updateSection(section.id, { title: e.currentTarget.textContent || "" })}
+            >
               {section.title}
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm text-slate-600 leading-relaxed outline-none focus:bg-primary/5 rounded p-1 -mx-1" contentEditable suppressContentEditableWarning>
               {skills.length > 0 ? skills.map(s => s.name).join(', ') : "JavaScript, TypeScript, React, Node.js, Python, SQL, AWS, Docker"}
             </p>
           </div>
@@ -144,11 +195,19 @@ export function EditorPanel() {
       default:
         return (
           <div className="mb-4">
-            <h2 className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1" style={{ color: designConfig.primaryColor }}>
+            <h2 
+              className="text-lg font-bold uppercase tracking-wider border-b-2 border-slate-900 mb-2 pb-1 outline-none focus:bg-primary/5 rounded px-1 -mx-1" 
+              style={{ color: designConfig.primaryColor }}
+              contentEditable suppressContentEditableWarning
+              onBlur={(e) => updateSection(section.id, { title: e.currentTarget.textContent || "" })}
+            >
               {section.title}
             </h2>
-            <div className="min-h-[40px] text-sm text-slate-400 italic border border-dashed border-slate-300 p-2 rounded">
-              Content for {section.type}... (Editable)
+            <div 
+              className="min-h-[40px] text-sm text-slate-600 p-2 rounded outline-none focus:bg-primary/5 hover:bg-slate-50 transition-colors cursor-text"
+              contentEditable suppressContentEditableWarning
+            >
+              Start typing content for {section.title}...
             </div>
           </div>
         );

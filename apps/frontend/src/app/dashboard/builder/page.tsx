@@ -1,5 +1,6 @@
 "use client";
 
+
 import { useState } from "react";
 import { useResumeStore } from "@/store/useResumeStore";
 import { Button } from "@/components/ui/button";
@@ -9,15 +10,14 @@ import {
 } from "lucide-react";
 
 // Placeholder components (will be built out in subsequent steps)
-import { StructurePanel } from "./components/StructurePanel";
-import { EditorPanel } from "./components/EditorPanel";
-import { CopilotPanel } from "./components/CopilotPanel";
-import { AtsPanel } from "./components/AtsPanel";
-import { VersionControlModal } from "./components/VersionControlModal";
+import { StructurePanel } from "@/app/dashboard/builder/components/StructurePanel";
+import { EditorPanel } from "@/app/dashboard/builder/components/EditorPanel";
+import { CopilotPanel } from "@/app/dashboard/builder/components/CopilotPanel";
+import { AtsPanel } from "@/app/dashboard/builder/components/AtsPanel";
+import { VersionControlModal } from "@/app/dashboard/builder/components/VersionControlModal";
 
 export default function UltimateResumeBuilder() {
-  const [activeRightPanel, setActiveRightPanel] = useState<'copilot' | 'design' | 'versions'>('copilot');
-  const [isAtsPanelOpen, setIsAtsPanelOpen] = useState(true);
+  const [activeRightPanel, setActiveRightPanel] = useState<'copilot' | 'design' | 'ats' | 'versions'>('ats');
   const [isVersionModalOpen, setIsVersionModalOpen] = useState(false);
 
   return (
@@ -61,48 +61,40 @@ export default function UltimateResumeBuilder() {
         {/* Center Panel: Live Editor (Auto) */}
         <main className="flex-1 flex flex-col relative bg-muted/10 overflow-hidden">
           <EditorPanel />
-          
-          {/* Bottom Panel: ATS Telemetry (Docked) */}
-          {isAtsPanelOpen && (
-            <div className="h-[250px] border-t border-border/50 bg-card shrink-0 flex flex-col relative z-20 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
-              <AtsPanel onClose={() => setIsAtsPanelOpen(false)} />
-            </div>
-          )}
-          {!isAtsPanelOpen && (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setIsAtsPanelOpen(true)}
-              className="absolute bottom-4 right-4 z-20 gap-2 bg-card shadow-xl rounded-full"
-            >
-              <Activity className="w-4 h-4 text-emerald-500" /> Show ATS Telemetry
-            </Button>
-          )}
         </main>
 
         {/* Right Panel: AI Copilot & Design Studio (25%) */}
         <aside className="w-[350px] border-l border-border/50 bg-card flex flex-col shrink-0 relative z-10 shadow-xl shadow-black/5">
           {/* Right Panel Tabs */}
-          <div className="h-12 border-b border-border/50 flex items-center px-2 gap-1 bg-muted/30">
+          <div className="h-12 border-b border-border/50 flex items-center px-1 gap-1 bg-muted/30">
+            <Button 
+              variant={activeRightPanel === 'ats' ? 'secondary' : 'ghost'} 
+              size="sm" 
+              onClick={() => setActiveRightPanel('ats')}
+              className="flex-1 gap-1 text-[11px]"
+            >
+              <Activity className="w-3.5 h-3.5 text-emerald-500" /> ATS
+            </Button>
             <Button 
               variant={activeRightPanel === 'copilot' ? 'secondary' : 'ghost'} 
               size="sm" 
               onClick={() => setActiveRightPanel('copilot')}
-              className="flex-1 gap-2"
+              className="flex-1 gap-1 text-[11px]"
             >
-              <Bot className="w-4 h-4 text-purple-500" /> Copilot
+              <Bot className="w-3.5 h-3.5 text-purple-500" /> Copilot
             </Button>
             <Button 
               variant={activeRightPanel === 'design' ? 'secondary' : 'ghost'} 
               size="sm" 
               onClick={() => setActiveRightPanel('design')}
-              className="flex-1 gap-2"
+              className="flex-1 gap-1 text-[11px]"
             >
-              <PenTool className="w-4 h-4 text-pink-500" /> Design
+              <PenTool className="w-3.5 h-3.5 text-pink-500" /> Design
             </Button>
           </div>
           
           <div className="flex-1 overflow-hidden flex flex-col">
+            {activeRightPanel === 'ats' && <AtsPanel onClose={() => {}} />}
             {activeRightPanel === 'copilot' && <CopilotPanel />}
             {activeRightPanel === 'design' && (
               <div className="p-6 text-center text-muted-foreground flex flex-col items-center justify-center h-full">
