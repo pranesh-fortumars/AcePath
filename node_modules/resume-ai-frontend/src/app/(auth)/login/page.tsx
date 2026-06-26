@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Mail, KeyRound, ChevronDown, Terminal, Fingerprint, ShieldAlert, Key } from "lucide-react";
+import { useAdminStore } from "../../../store/useAdminStore";
 
 export default function LoginPortal() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export default function LoginPortal() {
   const [loading, setLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const router = useRouter();
+  const { enableGodMode } = useAdminStore();
 
   // Inject dummy public API key by default
   useEffect(() => {
@@ -36,10 +38,14 @@ export default function LoginPortal() {
         const data = await res.json();
         localStorage.setItem("token", data.access_token);
         
+        if (data.user.isOwner) {
+          enableGodMode();
+        }
+        
         if (data.user.forcePasswordChange) {
           router.push("/reset-password");
         } else {
-          router.push("/system");
+          router.push(data.user.isOwner ? "/dashboard/admin" : "/dashboard");
         }
       } else {
         alert("Invalid Local Credentials. (Note: Database fallback layers are active)");
